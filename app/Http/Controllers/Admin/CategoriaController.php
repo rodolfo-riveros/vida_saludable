@@ -71,13 +71,4 @@ class CategoriaController extends Controller
         return redirect()->route('admin.categoria.index')
             ->with('success', 'La categoría fue eliminado correctamente.');
     }
-
-    public function activate(string $id)
-    {
-        $category = Category::findOrFail($id);
-        $category->update(['status' => true]);
-
-        return redirect()->route('admin.categoria.index')
-            ->with('success', 'La categoría fue reactivada correctamente.');
-    }
 }

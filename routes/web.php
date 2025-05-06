@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\ProveedorController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -22,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::resource('categoria', CategoriaController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.categoria');
+    Route::resource('proveedor', ProveedorController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.proveedor');
 });
 
 require __DIR__.'/auth.php';
