@@ -17,6 +17,7 @@
                     <flux:navlist.item icon="tag" :href="route('admin.categoria.index')" :current="request()->routeIs('admin.categoria.index')" wire:navigate>{{ __('Categoría') }}</flux:navlist.item>
                     <flux:navlist.item icon="building-storefront" :href="route('admin.proveedor.index')" :current="request()->routeIs('admin.proveedor.index')" wire:navigate>{{ __('Proveedor') }}</flux:navlist.item>
                     <flux:navlist.item icon="cube" :href="route('admin.producto.index')" :current="request()->routeIs('admin.producto.index')" wire:navigate>{{ __('Producto') }}</flux:navlist.item>
+                    <flux:navlist.item icon="shopping-cart" :href="route('admin.compra.index')" :current="request()->routeIs('admin.compra.index')" wire:navigate>{{ __('Compra') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

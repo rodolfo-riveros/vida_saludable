@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\CompraController;
 use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\Admin\ProveedorController;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +23,11 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('categoria', CategoriaController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.categoria');
     Route::resource('proveedor', ProveedorController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.proveedor');
     Route::resource('producto', ProductoController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.producto');
+    Route::resource('compra', CompraController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.compra');
 });
 
 require __DIR__.'/auth.php';
