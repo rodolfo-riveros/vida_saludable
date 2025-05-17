@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\Compra_detalleController;
 use App\Http\Controllers\Admin\CompraController;
 use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\Admin\ProveedorController;
@@ -28,6 +29,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('proveedor', ProveedorController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.proveedor');
     Route::resource('producto', ProductoController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.producto');
     Route::resource('compra', CompraController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.compra');
+    Route::resource('compra_detalle', Compra_detalleController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.compra_detalle');
 });
 
 require __DIR__.'/auth.php';
