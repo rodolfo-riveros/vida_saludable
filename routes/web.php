@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\Admin\Compra_detalleController;
 use App\Http\Controllers\Admin\CompraController;
 use App\Http\Controllers\Admin\ProductoController;
@@ -30,6 +31,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('producto', ProductoController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.producto');
     Route::resource('compra', CompraController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.compra');
     Route::resource('compra_detalle', Compra_detalleController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.compra_detalle');
+    Route::resource('cliente', ClienteController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.cliente');
+    // Ruta para consultar DNI
+    Route::get('cliente/consultar-dni', [ClienteController::class, 'consultarDni'])->name('admin.cliente.consultar-dni');
 });
 
 require __DIR__.'/auth.php';

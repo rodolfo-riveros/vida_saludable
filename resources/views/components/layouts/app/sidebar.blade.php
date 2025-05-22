@@ -22,6 +22,7 @@
                     <flux:navlist.item icon="shopping-cart" :href="route('admin.compra.index')" :current="request()->routeIs('admin.compra.index')" wire:navigate>{{ __('Compra') }}</flux:navlist.item>
                     <flux:navlist.item icon="clipboard-document-list" :href="route('admin.compra_detalle.index')" :current="request()->routeIs('admin.compra_detalle.index')" wire:navigate>{{ __('Detalle de compra') }}</flux:navlist.item>
                 </flux:navlist.group>
+                <flux:navlist.item icon="user-group" :href="route('admin.cliente.index')" :current="request()->routeIs('admin.cliente.index')" wire:navigate>{{ __('Cliente') }}</flux:navlist.item>
             </flux:navlist>
 
             <flux:spacer />
