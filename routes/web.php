@@ -34,6 +34,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('cliente', ClienteController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.cliente');
     // Ruta para consultar DNI
     Route::get('cliente/consultar-dni', [ClienteController::class, 'consultarDni'])->name('admin.cliente.consultar-dni');
+    // Ruta para consultar RUC
+    Route::get('/proveedor/consultar-ruc', [ProveedorController::class, 'consultarRuc'])->name('admin.proveedor.consultar-ruc');
 });
 
 require __DIR__.'/auth.php';

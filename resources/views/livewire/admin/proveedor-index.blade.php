@@ -1,5 +1,6 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <div class="w-full py-8 px-4 sm:px-6 lg:px-8">
     {{-- Alerta --}}
@@ -49,10 +50,18 @@
                     <label for="ruc" class="block text-sm font-medium text-zinc-300 mb-1" data-flux-label>
                         RUC <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" id="ruc" name="ruc"
-                        class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-white placeholder-zinc-500"
-                        placeholder="Ej: 12345678901" required pattern="\d{11}" maxlength="11"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" data-flux-control>
+                    <div class="flex gap-2">
+                        <input type="text" id="ruc" name="ruc"
+                            class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-white placeholder-zinc-500"
+                            placeholder="Ej: 12345678901" required pattern="\d{11}" maxlength="11"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')" data-flux-control>
+                        <button type="button" id="consultar-ruc"
+                            class="px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                            </svg>
+                        </button>
+                    </div>
                     @error('ruc')
                         <p class="mt-1 text-sm text-red-500 font-medium" data-flux-component="error">{{ $message }}</p>
                     @enderror
@@ -127,3 +136,89 @@
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#consultar-ruc').on('click', function () {
+            const ruc = $('#ruc').val();
+            if (!ruc.match(/^\d{11}$/)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El RUC debe tener 11 dígitos',
+                    background: '#18181b',
+                    color: '#f4f4f5',
+                    iconColor: '#ef4444',
+                    confirmButtonColor: '#3b82f6',
+                    customClass: {
+                        popup: 'rounded-lg shadow-lg'
+                    }
+                });
+                return;
+            }
+
+            $.ajax({
+                url: '{{ route('admin.proveedor.consultar-ruc') }}',
+                method: 'GET',
+                data: { ruc: ruc },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function (data) {
+                    console.log('Respuesta del controlador:', data); // Depuración
+                    if (data.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.error,
+                            background: '#18181b',
+                            color: '#f4f4f5',
+                            iconColor: '#ef4444',
+                            confirmButtonColor: '#3b82f6',
+                            customClass: {
+                                popup: 'rounded-lg shadow-lg'
+                            }
+                        });
+                    } else {
+                        $('#ruc').val(data.ruc || '');
+                        $('#razon_social').val(data.razon_social || '');
+                        $('#direccion').val(data.direccion || '');
+                        // Teléfono y email no vienen de la API, se dejan vacíos
+                        $('#telefono').val('');
+                        $('#email').val('');
+                        if (!data.razon_social || !data.direccion) {
+                            console.warn('Advertencia: Algunos campos no se recibieron correctamente');
+                        }
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: 'Datos del RUC obtenidos correctamente',
+                            background: '#18181b',
+                            color: '#f4f4f5',
+                            iconColor: '#22c55e',
+                            confirmButtonColor: '#3b82f6',
+                            customClass: {
+                                popup: 'rounded-lg shadow-lg'
+                            }
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    console.log('Error en la solicitud AJAX:', xhr.responseJSON); // Depuración
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al consultar el RUC: ' + (xhr.responseJSON?.error || 'No se pudo conectar con la API'),
+                        background: '#18181b',
+                        color: '#f4f4f5',
+                        iconColor: '#ef4444',
+                        confirmButtonColor: '#3b82f6',
+                        customClass: {
+                            popup: 'rounded-lg shadow-lg'
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
