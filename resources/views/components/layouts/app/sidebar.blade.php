@@ -31,6 +31,34 @@
 
             <flux:spacer />
 
+            <!-- Sección de Notificaciones -->
+            @auth
+                <div class="px-4 py-2">
+                    <h3 class="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mb-2">{{ __('Notificaciones') }}</h3>
+                    @if (Auth::user()->unreadNotifications->isEmpty())
+                        <p class="text-xs text-zinc-600 dark:text-zinc-400">{{ __('No hay notificaciones nuevas.') }}</p>
+                    @else
+                        <ul class="space-y-2">
+                            @foreach (Auth::user()->unreadNotifications->take(5) as $notification)
+                                <li class="flex items-start gap-2 p-2 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded text-xs">
+                                    <svg class="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01" />
+                                    </svg>
+                                    <span class="text-zinc-800 dark:text-zinc-200">{{ $notification->data['message'] }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <form action="{{ route('admin.notifications.markAllAsRead') }}" method="POST" class="mt-2">
+                            @csrf
+                            <button type="submit" class="text-xs text-blue-500 hover:underline">
+                                {{ __('Marcar todas como leídas') }}
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            @endauth
+
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
                 <flux:profile

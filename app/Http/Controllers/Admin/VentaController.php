@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Auth;
+use App\Notifications\LowStockNotification;
 
 class VentaController extends Controller
 {
@@ -124,16 +125,32 @@ class VentaController extends Controller
                 ];
 
                 // Preparar actualización de stock
-                $productsToUpdate[$product->id] = $item['quantity'];
+                $productsToUpdate[$product->id] = [
+                    'quantity' => $item['quantity'],
+                    'product' => $product,
+                ];
             }
 
             // Insertar todos los detalles de la venta en lote
             Sale_detail::insert($saleDetailsData);
 
-            // Actualizar el stock de los productos en una sola consulta
-            foreach ($productsToUpdate as $productId => $quantity) {
+            // Actualizar el stock de los productos y verificar stock mínimo
+            foreach ($productsToUpdate as $productId => $data) {
+                $product = $data['product'];
+                $quantity = $data['quantity'];
+
+                // Decrementar stock
                 Product::where('id', $productId)
                     ->decrement('stock', $quantity);
+
+                // Refrescar el modelo para obtener el stock actualizado
+                $product->refresh();
+
+                // Verificar si el stock está en o por debajo del mínimo
+                if ($product->stock <= $product->stock_minimo) {
+                    // Enviar notificación al usuario logueado
+                    Auth::user()->notify(new LowStockNotification($product));
+                }
             }
 
             // Confirmar la transacción

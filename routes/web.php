@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\Venta_detalleController;
 use App\Http\Controllers\Admin\VentaController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -40,10 +41,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('cliente/consultar-dni', [ClienteController::class, 'consultarDni'])->name('admin.cliente.consultar-dni');
     // Ruta para consultar RUC
     Route::get('/proveedor/consultar-ruc', [ProveedorController::class, 'consultarRuc'])->name('admin.proveedor.consultar-ruc');
-    // Ruta para consultar producto por codigo
-    Route::post('/admin/venta/get-product', [VentaController::class, 'getProduct'])->name('admin.venta.get-product');
-    // Ruta para consultar cliente por dni
-    Route::post('/admin/venta/get-customer', [VentaController::class, 'getCustomer'])->name('admin.venta.get-customer');
+    // Ruta para consultar producto por código
+    Route::post('/venta/get-product', [VentaController::class, 'getProduct'])->name('admin.venta.get-product');
+    // Ruta para consultar cliente por DNI
+    Route::post('/venta/get-customer', [VentaController::class, 'getCustomer'])->name('admin.venta.get-customer');
+    // Rutas para notificaciones
+    Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('admin.notifications.markAsRead');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('admin.notifications.markAllAsRead');
 });
 
 require __DIR__.'/auth.php';
