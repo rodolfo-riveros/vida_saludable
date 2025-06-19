@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\CategoriesExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoriaController extends Controller
 {
@@ -78,5 +80,10 @@ class CategoriaController extends Controller
         $categories = Category::where('status', true)->get();
         $pdf = Pdf::loadView('admin.categoria.pdf', compact('categories'));
         return $pdf->download('reporte_categorias.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new CategoriesExport, 'reporte_categorias.xlsx');
     }
 }
