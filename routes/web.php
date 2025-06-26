@@ -33,12 +33,25 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('categoria/export-pdf', [CategoriaController::class, 'exportPdf'])->name('admin.categoria.export-pdf');
     Route::get('categoria/export-excel', [CategoriaController::class, 'exportExcel'])->name('admin.categoria.export-excel');
     Route::resource('proveedor', ProveedorController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.proveedor');
+    Route::get('proveedor/export-pdf', [ProveedorController::class, 'exportPdf'])->name('admin.proveedor.export-pdf');
+    Route::get('proveedor/export-excel', [ProveedorController::class, 'exportExcel'])->name('admin.proveedor.export-excel');
     Route::resource('producto', ProductoController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.producto');
+    Route::get('producto/export-pdf', [ProductoController::class, 'exportPdf'])->name('admin.producto.export-pdf');
+    Route::get('producto/export-excel', [ProductoController::class, 'exportExcel'])->name('admin.producto.export-excel');
     Route::resource('compra', CompraController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.compra');
+    Route::get('compra/export-pdf', [CompraController::class, 'exportPdf'])->name('admin.compra.export-pdf');
+    Route::get('compra/export-excel', [CompraController::class, 'exportExcel'])->name('admin.compra.export-excel');
     Route::resource('compra_detalle', Compra_detalleController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.compra_detalle');
+    Route::get('compra_detalle/export-pdf', [Compra_detalleController::class, 'exportPdf'])->name('admin.compra_detalle.export-pdf');
+    Route::get('compra_detalle/export-excel', [Compra_detalleController::class, 'exportExcel'])->name('admin.compra_detalle.export-excel');
     Route::resource('cliente', ClienteController::class)->only(['index', 'store', 'update', 'destroy'])->names('admin.cliente');
+    Route::get('cliente/export-pdf', [ClienteController::class, 'exportPdf'])->name('admin.cliente.export-pdf');
+    Route::get('cliente/export-excel', [ClienteController::class, 'exportExcel'])->name('admin.cliente.export-excel');
     Route::resource('venta', VentaController::class)->only(['index', 'store'])->names('admin.venta');
     Route::resource('venta_detalle', Venta_detalleController::class)->only(['index'])->names('admin.venta_detalle');
+    Route::get('venta_detalle/export-pdf', [Venta_detalleController::class, 'exportPdf'])->name('admin.venta_detalle.export-pdf');
+    Route::get('venta/{sale}/imprimir-boleta', [Venta_detalleController::class, 'generateBoletaPrint'])->name('admin.venta.imprimir_boleta');
+    Route::get('venta_detalle/export-excel', [Venta_detalleController::class, 'exportExcel'])->name('admin.venta_detalle.export-excel');
     // Ruta para consultar DNI
     Route::get('cliente/consultar-dni', [ClienteController::class, 'consultarDni'])->name('admin.cliente.consultar-dni');
     // Ruta para consultar RUC

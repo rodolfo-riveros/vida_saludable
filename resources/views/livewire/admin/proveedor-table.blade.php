@@ -43,6 +43,16 @@
             <h1 class="text-2xl font-bold text-white" data-flux-component="heading">
                 Lista de Proveedores
             </h1>
+            <div class="space-x-2">
+                <a href="{{ route('admin.proveedor.export-pdf') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Exportar PDF
+                </a>
+                <a href="{{ route('admin.proveedor.export-excel') }}"
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Exportar Excel
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -64,7 +74,8 @@
                         <tr>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $loop->iteration }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $supplier->ruc }}</td>
-                            <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($supplier->razon_social, 30) }}</td>
+                            <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($supplier->razon_social, 30) }}
+                            </td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($supplier->direccion, 30) }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $supplier->telefono }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($supplier->email, 30) }}</td>
@@ -182,7 +193,8 @@
                         </div>
 
                         <div class="px-8 py-4 bg-zinc-800 flex justify-end space-x-4">
-                            <button type="button" @click="closeModal" class="px-6 py-3 text-zinc-300 hover:text-white">
+                            <button type="button" @click="closeModal"
+                                class="px-6 py-3 text-zinc-300 hover:text-white">
                                 Cancelar
                             </button>
                             <button type="submit"

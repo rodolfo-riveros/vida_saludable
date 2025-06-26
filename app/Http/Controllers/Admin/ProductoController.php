@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoController extends Controller
 {
@@ -19,7 +22,7 @@ class ProductoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
+            'supplier_id' => 'required|exists:products,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'codigo_barra' => 'required|string|unique:products,codigo_barra',
@@ -57,7 +60,7 @@ class ProductoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
+            'supplier_id' => 'required|exists:products,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'codigo_barra' => 'required|string|unique:products,codigo_barra',
@@ -98,5 +101,17 @@ class ProductoController extends Controller
 
         return redirect()->route('admin.producto.index')
             ->with('success', 'El producto fue eliminado correctamente.');
+    }
+
+    public function exportPdf()
+    {
+        $products = Product::where('status', true)->get();
+        $pdf = Pdf::loadView('admin.producto.pdf', compact('products'));
+        return $pdf->download('reporte_producto.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ProductsExport, 'reporte_productos.xlsx');
     }
 }

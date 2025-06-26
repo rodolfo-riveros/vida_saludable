@@ -2,24 +2,27 @@
 
 namespace App\Exports;
 
-use App\Models\Category;
+use App\Models\Supplier;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class CategoriesExport implements FromCollection, WithHeadings, WithStyles
+class SuppliersExport implements FromCollection, WithHeadings, WithStyles
 {
     public function collection()
     {
-        return Category::where('status', true)
-            ->select('id', 'name', 'description', 'status')
+        return Supplier::where('status', true)
+            ->select('id', 'ruc', 'razon_social', 'direccion', 'telefono', 'email', 'status')
             ->get()
             ->map(function ($item) {
                 return [
                     'id' => $item->id,
-                    'name' => $item->name,
-                    'description' => $item->description,
+                    'ruc' => $item->ruc,
+                    'razon_social' => $item->razon_social,
+                    'direccion' => $item->direccion,
+                    'telefono' => $item->telefono,
+                    'email' => $item->email,
                     'status' => $item->status ? 'Activo' : 'Inactivo'
                 ];
             });
@@ -29,16 +32,19 @@ class CategoriesExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             '#',
-            'Nombre',
-            'Descripción',
+            'RUC',
+            'Razón Social',
+            'Dirección',
+            'Teléfono',
+            'Email',
             'Estado'
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        // Autoajustar el ancho de las columnas A-D
-        foreach (range('A', 'D') as $col) {
+        // Autoajustar el ancho de las columnas A-G
+        foreach (range('A', 'G') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -48,8 +54,8 @@ class CategoriesExport implements FromCollection, WithHeadings, WithStyles
                 'font' => ['bold' => true, 'size' => 12, 'color' => ['argb' => 'FFFFFFFF']],
                 'fill' => ['fillType' => 'solid', 'color' => ['argb' => 'FF1A73E8']]
             ],
-            // Bordes para toda la tabla
-            'A1:D' . ($sheet->getHighestRow()) => [
+            // Bordes para toda la tabla (ajusta 'G' según el número de columnas)
+            'A1:G' . ($sheet->getHighestRow()) => [
                 'borders' => [
                     'allBorders' => ['borderStyle' => 'thin', 'color' => ['argb' => 'FF000000']]
                 ]

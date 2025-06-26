@@ -15,7 +15,9 @@
                 color: '#f4f4f5',
                 iconColor: '#22c55e',
                 confirmButtonColor: '#3b82f6',
-                customClass: { popup: 'rounded-lg shadow-lg' }
+                customClass: {
+                    popup: 'rounded-lg shadow-lg'
+                }
             });
         </script>
     @endif
@@ -30,7 +32,9 @@
                 color: '#f4f4f5',
                 iconColor: '#ef4444',
                 confirmButtonColor: '#3b82f6',
-                customClass: { popup: 'rounded-lg shadow-lg text-left' }
+                customClass: {
+                    popup: 'rounded-lg shadow-lg text-left'
+                }
             });
         </script>
     @endif
@@ -46,7 +50,8 @@
             </div>
         </div>
 
-        <form id="sales-form" action="{{ route('admin.venta.store') }}" method="POST" class="space-y-6" data-flux-component="form">
+        <form id="sales-form" action="{{ route('admin.venta.store') }}" method="POST" class="space-y-6"
+            data-flux-component="form">
             @csrf
 
             <!-- Sección de Datos Básicos -->
@@ -65,8 +70,10 @@
                         <button type="button" id="consultar-cliente"
                             class="px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center"
                             title="Consultar cliente">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
                             </svg>
                         </button>
                     </div>
@@ -104,8 +111,10 @@
                             placeholder="Escanea el código de barra o ingresa manualmente" data-flux-control>
                         <button type="button" id="add-product"
                             class="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-zinc-900 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
                             Añadir
                         </button>
@@ -202,10 +211,11 @@
                     class="px-6 py-3 bg-zinc-700 text-white font-medium rounded-lg hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-zinc-900 transition-all duration-200 shadow-lg hover:shadow-xl">
                     Cancelar
                 </button>
-                <button type="submit"
+                <button type="submit" id="register-and-print"
                     class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2"
-                    data-flux-component="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    data-flux-component="button" form="sales-form">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
                     Registrar Venta
@@ -216,7 +226,7 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         const barcodeInput = $('#codigo_barra');
         const addProductButton = $('#add-product');
         const productList = $('#product-list');
@@ -236,14 +246,14 @@
 
         barcodeInput.focus();
 
-        barcodeInput.on('keypress', function (e) {
+        barcodeInput.on('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 addProductButton.click();
             }
         });
 
-        $('#consultar-cliente').on('click', function () {
+        $('#consultar-cliente').on('click', function() {
             const numeroDocumento = customerInput.val().trim();
             if (!numeroDocumento.match(/^\d{8}$/)) {
                 Swal.fire({
@@ -254,7 +264,9 @@
                     color: '#f4f4f5',
                     iconColor: '#ef4444',
                     confirmButtonColor: '#3b82f6',
-                    customClass: { popup: 'rounded-lg shadow-lg' }
+                    customClass: {
+                        popup: 'rounded-lg shadow-lg'
+                    }
                 });
                 return;
             }
@@ -262,10 +274,14 @@
             $.ajax({
                 url: '{{ route('admin.venta.get-customer') }}',
                 method: 'POST',
-                data: JSON.stringify({ numero_documento: numeroDocumento }),
+                data: JSON.stringify({
+                    numero_documento: numeroDocumento
+                }),
                 contentType: 'application/json',
-                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                success: function (data) {
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
                     if (data.id) {
                         customerIdInput.val(data.id);
                         selectedCustomer = {
@@ -282,7 +298,9 @@
                             color: '#f4f4f5',
                             iconColor: '#22c55e',
                             confirmButtonColor: '#3b82f6',
-                            customClass: { popup: 'rounded-lg shadow-lg' }
+                            customClass: {
+                                popup: 'rounded-lg shadow-lg'
+                            }
                         });
                     } else {
                         Swal.fire({
@@ -293,23 +311,28 @@
                             color: '#f4f4f5',
                             iconColor: '#ef4444',
                             confirmButtonColor: '#3b82f6',
-                            customClass: { popup: 'rounded-lg shadow-lg' }
+                            customClass: {
+                                popup: 'rounded-lg shadow-lg'
+                            }
                         });
                         customerIdInput.val('');
                         selectedCustomer = null;
                         updateCustomerList();
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Error al consultar el cliente: ' + (xhr.responseJSON?.error || 'No se pudo conectar con el servidor.'),
+                        text: 'Error al consultar el cliente: ' + (xhr.responseJSON
+                            ?.error || 'No se pudo conectar con el servidor.'),
                         background: '#18181b',
                         color: '#f4f4f5',
                         iconColor: '#ef4444',
                         confirmButtonColor: '#3b82f6',
-                        customClass: { popup: 'rounded-lg shadow-lg' }
+                        customClass: {
+                            popup: 'rounded-lg shadow-lg'
+                        }
                     });
                     customerIdInput.val('');
                     selectedCustomer = null;
@@ -318,7 +341,7 @@
             });
         });
 
-        addProductButton.on('click', function () {
+        addProductButton.on('click', function() {
             const barcode = barcodeInput.val().trim();
 
             if (!barcode) {
@@ -330,7 +353,9 @@
                     color: '#f4f4f5',
                     iconColor: '#ef4444',
                     confirmButtonColor: '#3b82f6',
-                    customClass: { popup: 'rounded-lg shadow-lg' }
+                    customClass: {
+                        popup: 'rounded-lg shadow-lg'
+                    }
                 });
                 return;
             }
@@ -338,12 +363,17 @@
             $.ajax({
                 url: '{{ route('admin.venta.get-product') }}',
                 method: 'POST',
-                data: JSON.stringify({ codigo_barra: barcode }),
+                data: JSON.stringify({
+                    codigo_barra: barcode
+                }),
                 contentType: 'application/json',
-                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                success: function (data) {
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(data) {
                     if (data.product) {
-                        const existingProductIndex = products.findIndex(p => p.codigo_barra === data.product.codigo_barra);
+                        const existingProductIndex = products.findIndex(p => p
+                            .codigo_barra === data.product.codigo_barra);
                         if (existingProductIndex !== -1) {
                             products[existingProductIndex].quantity += 1;
                         } else {
@@ -351,7 +381,8 @@
                                 codigo_barra: data.product.codigo_barra,
                                 quantity: 1,
                                 name: data.product.name,
-                                precio_unitario: parseFloat(data.product.precio_venta),
+                                precio_unitario: parseFloat(data.product
+                                    .precio_venta),
                                 stock: parseInt(data.product.stock)
                             });
                         }
@@ -367,22 +398,27 @@
                             color: '#f4f4f5',
                             iconColor: '#ef4444',
                             confirmButtonColor: '#3b82f6',
-                            customClass: { popup: 'rounded-lg shadow-lg' }
+                            customClass: {
+                                popup: 'rounded-lg shadow-lg'
+                            }
                         });
                         barcodeInput.val('');
                         barcodeInput.focus();
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Error al buscar el producto: ' + (xhr.responseJSON?.error || 'No se pudo conectar con el servidor.'),
+                        text: 'Error al buscar el producto: ' + (xhr.responseJSON
+                            ?.error || 'No se pudo conectar con el servidor.'),
                         background: '#18181b',
                         color: '#f4f4f5',
                         iconColor: '#ef4444',
                         confirmButtonColor: '#3b82f6',
-                        customClass: { popup: 'rounded-lg shadow-lg' }
+                        customClass: {
+                            popup: 'rounded-lg shadow-lg'
+                        }
                     });
                     barcodeInput.val('');
                     barcodeInput.focus();
@@ -428,7 +464,9 @@
                         color: '#f4f4f5',
                         iconColor: '#ef4444',
                         confirmButtonColor: '#3b82f6',
-                        customClass: { popup: 'rounded-lg shadow-lg' }
+                        customClass: {
+                            popup: 'rounded-lg shadow-lg'
+                        }
                     });
                     product.quantity = product.stock;
                 }
@@ -448,8 +486,7 @@
                         <td class="p-3 text-right">
                             <button type="button" class="text-red-400 hover:text-red-300 transition-colors p-1 rounded-full hover:bg-red-900/30" onclick="removeProduct(${index})" title="Eliminar producto">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4  Registrar Venta
-7h16" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
                             </button>
                         </td>
@@ -475,7 +512,7 @@
             productCount.text(products.length);
         }
 
-        window.updateQuantity = function (index, newQuantity) {
+        window.updateQuantity = function(index, newQuantity) {
             newQuantity = parseInt(newQuantity);
             if (isNaN(newQuantity) || newQuantity < 1) newQuantity = 1;
             if (newQuantity > products[index].stock) {
@@ -488,19 +525,21 @@
                     color: '#f4f4f5',
                     iconColor: '#ef4444',
                     confirmButtonColor: '#3b82f6',
-                    customClass: { popup: 'rounded-lg shadow-lg' }
+                    customClass: {
+                        popup: 'rounded-lg shadow-lg'
+                    }
                 });
             }
             products[index].quantity = newQuantity;
             updateProductList();
         };
 
-        window.removeProduct = function (index) {
+        window.removeProduct = function(index) {
             products.splice(index, 1);
             updateProductList();
         };
 
-        $('#sales-form').on('submit', function (e) {
+        $('#sales-form').on('submit', function(e) {
             if (products.length === 0) {
                 e.preventDefault();
                 Swal.fire({
@@ -511,7 +550,9 @@
                     color: '#f4f4f5',
                     iconColor: '#ef4444',
                     confirmButtonColor: '#3b82f6',
-                    customClass: { popup: 'rounded-lg shadow-lg' }
+                    customClass: {
+                        popup: 'rounded-lg shadow-lg'
+                    }
                 });
             } else if (!customerIdInput.val()) {
                 e.preventDefault();
@@ -523,9 +564,19 @@
                     color: '#f4f4f5',
                     iconColor: '#ef4444',
                     confirmButtonColor: '#3b82f6',
-                    customClass: { popup: 'rounded-lg shadow-lg' }
+                    customClass: {
+                        popup: 'rounded-lg shadow-lg'
+                    }
                 });
             }
         });
+
+        @if (session('print_boleta_id'))
+            var saleIdToPrint = {{ session('print_boleta_id') }};
+            setTimeout(function() {
+                window.open("{{ route('admin.venta.imprimir_boleta', ['sale' => ':saleId']) }}"
+                    .replace(':saleId', saleIdToPrint), '_blank');
+            }, 500);
+        @endif
     });
 </script>

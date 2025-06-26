@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Buy_detailsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Buy_detail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Compra_detalleController extends Controller
 {
@@ -74,5 +77,17 @@ class Compra_detalleController extends Controller
     {
         Buy_detail::find($id)->delete();
         return redirect()->route('admin.compra_detalle.index')->with('success', 'El detalle compra fue eliminada correctamente.');
+    }
+
+    public function exportPdf()
+    {
+        $buy_details = Buy_detail::orderBy('created_at', 'desc')->get();
+        $pdf = Pdf::loadView('admin.compra_detalle.pdf', compact('buy_details'));
+        return $pdf->download('reporte_compra_detalle.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new Buy_detailsExport, 'reporte_compra_detalle.xlsx');
     }
 }

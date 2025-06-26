@@ -156,7 +156,8 @@ class VentaController extends Controller
             // Confirmar la transacción
             DB::commit();
 
-            return redirect()->route('admin.venta.index')
+            // Redirigir a la ruta de impresión con el ID de la venta
+            return redirect()->route('admin.venta.imprimir_boleta', ['sale' => $sale->id])
                 ->with('success', 'La venta fue registrada correctamente.');
         } catch (ValidationException $e) {
             DB::rollBack();

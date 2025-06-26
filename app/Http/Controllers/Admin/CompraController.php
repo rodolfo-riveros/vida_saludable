@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\BuysExport;
 use App\Http\Controllers\Controller;
 use App\Models\Buy;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CompraController extends Controller
 {
@@ -18,7 +21,7 @@ class CompraController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'supplier_id' => 'required|exists:suppliers,id',
+            'supplier_id' => 'required|exists:buys,id',
             'fecha' => 'required|date',
             'total' => 'required|numeric|min:0',
             'tipo_comprobante' => 'required|string|in:factura,boleta',
@@ -47,7 +50,7 @@ class CompraController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
-            'supplier_id' => 'required|exists:suppliers,id',
+            'supplier_id' => 'required|exists:buys,id',
             'fecha' => 'required|date',
             'total' => 'required|numeric|min:0',
             'tipo_comprobante' => 'required|string|in:factura,boleta',
@@ -77,5 +80,17 @@ class CompraController extends Controller
     {
         Buy::find($id)->delete();
         return redirect()->route('admin.compra.index')->with('success', 'La compra fue eliminada correctamente.');
+    }
+
+    public function exportPdf()
+    {
+        $buys = Buy::orderBy('created_at', 'desc')->get();
+        $pdf = Pdf::loadView('admin.compra.pdf', compact('buys'));
+        return $pdf->download('reporte_compra.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new BuysExport, 'reporte_compras.xlsx');
     }
 }

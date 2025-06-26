@@ -44,6 +44,16 @@
             <h1 class="text-2xl font-bold text-white" data-flux-component="heading">
                 Lista de Clientes
             </h1>
+            <div class="space-x-2">
+                <a href="{{ route('admin.cliente.export-pdf') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Exportar PDF
+                </a>
+                <a href="{{ route('admin.cliente.export-excel') }}"
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Exportar Excel
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -51,8 +61,10 @@
                 <thead class="bg-zinc-800">
                     <tr>
                         <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">#</th>
-                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Tipo de Documento</th>
-                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Número de Documento</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Tipo de Documento
+                        </th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Número de Documento
+                        </th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Nombres</th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Apellidos</th>
                         <th class="px-4 py-3 text-right text-sm font-medium text-zinc-300 uppercase">Acciones</th>
@@ -135,7 +147,8 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Campo Tipo de Documento -->
                                 <div>
-                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Tipo de Documento</label>
+                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Tipo de
+                                        Documento</label>
                                     <select x-model="currentTipoDocumento" name="tipo_documento"
                                         class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required>
@@ -145,7 +158,8 @@
                                 </div>
                                 <!-- Campo Número de Documento -->
                                 <div>
-                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Número de Documento</label>
+                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Número de
+                                        Documento</label>
                                     <input type="text" x-model="currentNumeroDocumento" name="numero_documento"
                                         class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required pattern="\d{8}" maxlength="8"

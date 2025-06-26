@@ -24,7 +24,6 @@
     @endif
 
     @if ($errors->any())
-        )
         <script>
             Swal.fire({
                 icon: 'error',
@@ -49,6 +48,16 @@
                     Historial de Ventas
                 </h1>
                 <p class="text-zinc-400 mt-1">Listado completo de transacciones registradas</p>
+            </div>
+            <div class="space-x-2">
+                <a href="{{ route('admin.venta_detalle.export-pdf') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Exportar PDF
+                </a>
+                <a href="{{ route('admin.venta_detalle.export-excel') }}"
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Exportar Excel
+                </a>
             </div>
         </div>
 
@@ -111,9 +120,9 @@
                                         data-sale-id="{{ $sale->id }}" title="Ver detalles">
                                         <i class="fas fa-chevron-down text-sm"></i>
                                     </button>
-                                    <a href="#"
+                                    <a href="{{ route('admin.venta.imprimir_boleta', $sale->id) }}"
                                         class="text-zinc-400 hover:text-white transition-colors p-2 rounded-full hover:bg-zinc-700/50"
-                                        title="Imprimir comprobante">
+                                        title="Imprimir comprobante" target="_blank">
                                         <i class="fas fa-print text-sm"></i>
                                     </a>
                                 </div>
@@ -198,48 +207,13 @@
             </table>
         </div>
 
-        <!-- Pie de tabla con paginación -->
-        @if ($sales->hasPages())
-            <div class="px-6 py-4 border-t border-zinc-800 flex items-center justify-between">
-                <div class="text-sm text-zinc-400">
-                    Mostrando {{ $sales->firstItem() }} a {{ $sales->lastItem() }} de {{ $sales->total() }}
-                    resultados
-                </div>
-                <div class="flex gap-1">
-                    @if ($sales->onFirstPage())
-                        <span class="px-3 py-1 rounded bg-zinc-800 text-zinc-600 cursor-not-allowed">
-                            <i class="fas fa-chevron-left"></i>
-                        </span>
-                    @else
-                        <a href="{{ $sales->previousPageUrl() }}"
-                            class="px-3 py-1 rounded bg-zinc-800 text-white hover:bg-zinc-700 transition-colors">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                    @endif
-
-                    @foreach (range(1, $sales->lastPage()) as $i)
-                        @if ($i == $sales->currentPage())
-                            <span class="px-3 py-1 rounded bg-blue-600 text-white">{{ $i }}</span>
-                        @else
-                            <a href="{{ $sales->url($i) }}"
-                                class="px-3 py-1 rounded bg-zinc-800 text-white hover:bg-zinc-700 transition-colors">{{ $i }}</a>
-                        @endif
-                    @endforeach
-
-                    @if ($sales->hasMorePages())
-                        <a href="{{ $sales->nextPageUrl() }}"
-                            class="px-3 py-1 rounded bg-zinc-800 text-white hover:bg-zinc-700 transition-colors">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    @else
-                        <span class="px-3 py-1 rounded bg-zinc-800 text-zinc-600 cursor-not-allowed">
-                            <i class="fas fa-chevron-right"></i>
-                        </span>
-                    @endif
-                </div>
-            </div>
-        @endif
     </div>
+    <!-- Paginación -->
+    @if ($sales->hasPages())
+        <div class="mt-6">
+            {{ $sales->links() }}
+        </div>
+    @endif
 </div>
 
 <script>

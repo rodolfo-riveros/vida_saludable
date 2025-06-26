@@ -43,6 +43,16 @@
             <h1 class="text-2xl font-bold text-white" data-flux-component="heading">
                 Lista de Productos
             </h1>
+            <div class="space-x-2">
+                <a href="{{ route('admin.producto.export-pdf') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Exportar PDF
+                </a>
+                <a href="{{ route('admin.producto.export-excel') }}"
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Exportar Excel
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -66,12 +76,16 @@
                     @foreach ($products as $product)
                         <tr>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $loop->iteration }}</td>
-                            <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($product->category->name, 20) }}</td>
-                            <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($product->supplier->razon_social, 20) }}</td>
+                            <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($product->category->name, 20) }}
+                            </td>
+                            <td class="px-4 py-4 text-sm text-zinc-300">
+                                {{ Str::limit($product->supplier->razon_social, 20) }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ Str::limit($product->name, 20) }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $product->codigo_barra }}</td>
-                            <td class="px-4 py-4 text-sm text-zinc-300">{{ number_format($product->precio_venta, 2) }}</td>
-                            <td class="px-4 py-4 text-sm text-zinc-300">{{ number_format($product->precio_compra, 2) }}</td>
+                            <td class="px-4 py-4 text-sm text-zinc-300">{{ number_format($product->precio_venta, 2) }}
+                            </td>
+                            <td class="px-4 py-4 text-sm text-zinc-300">{{ number_format($product->precio_compra, 2) }}
+                            </td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $product->stock }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $product->stock_minimo }}</td>
                             <td class="px-4 py-4">
@@ -194,7 +208,8 @@
                                 </div>
                                 <!-- Campo Precio de Compra -->
                                 <div>
-                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Precio de Compra</label>
+                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Precio de
+                                        Compra</label>
                                     <input type="number" x-model="currentPrecioCompra" name="precio_compra"
                                         class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required step="0.01" min="0">
@@ -204,14 +219,16 @@
                                     <label class="block text-sm font-medium text-zinc-300 mb-2">Stock</label>
                                     <input type="number" x-model="currentStock" name="stock"
                                         class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        required min="0" step="1" oninput="this.value = Math.floor(this.value)">
+                                        required min="0" step="1"
+                                        oninput="this.value = Math.floor(this.value)">
                                 </div>
                                 <!-- Campo Stock Mínimo -->
                                 <div>
                                     <label class="block text-sm font-medium text-zinc-300 mb-2">Stock Mínimo</label>
                                     <input type="number" x-model="currentStockMinimo" name="stock_minimo"
                                         class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        required min="0" step="1" oninput="this.value = Math.floor(this.value)">
+                                        required min="0" step="1"
+                                        oninput="this.value = Math.floor(this.value)">
                                 </div>
                             </div>
                             <!-- Campo Descripción -->
@@ -223,7 +240,8 @@
                         </div>
 
                         <div class="px-8 py-4 bg-zinc-800 flex justify-end space-x-4">
-                            <button type="button" @click="closeModal" class="px-6 py-3 text-zinc-300 hover:text-white">
+                            <button type="button" @click="closeModal"
+                                class="px-6 py-3 text-zinc-300 hover:text-white">
                                 Cancelar
                             </button>
                             <button type="submit"
@@ -279,7 +297,8 @@
             currentStockMinimo: 0,
             currentStatus: 1,
 
-            openModal(id, category_id, supplier_id, name, description, codigo_barra, precio_venta, precio_compra, stock, stock_minimo, status) {
+            openModal(id, category_id, supplier_id, name, description, codigo_barra, precio_venta, precio_compra, stock,
+                stock_minimo, status) {
                 this.currentId = id;
                 this.currentCategoryId = category_id;
                 this.currentSupplierId = supplier_id;

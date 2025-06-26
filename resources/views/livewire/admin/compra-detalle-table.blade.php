@@ -43,6 +43,16 @@
             <h1 class="text-2xl font-bold text-white" data-flux-component="heading">
                 Lista de Detalles de Compra
             </h1>
+            <div class="space-x-2">
+                <a href="{{ route('admin.compra_detalle.export-pdf') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Exportar PDF
+                </a>
+                <a href="{{ route('admin.compra_detalle.export-excel') }}"
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Exportar Excel
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -64,11 +74,13 @@
                             <td class="px-4 py-4 text-sm text-zinc-300">
                                 {{ $detail->buy->fecha }}
                                 <br>
-                                <span class="text-xs text-zinc-400">Total: S/. {{ number_format($detail->buy->total, 2) }}</span>
+                                <span class="text-xs text-zinc-400">Total: S/.
+                                    {{ number_format($detail->buy->total, 2) }}</span>
                             </td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $detail->product->name ?? 'N/A' }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $detail->cantidad }}</td>
-                            <td class="px-4 py-4 text-sm text-zinc-300">{{ number_format($detail->precio_unitario, 2) }}</td>
+                            <td class="px-4 py-4 text-sm text-zinc-300">{{ number_format($detail->precio_unitario, 2) }}
+                            </td>
                             <td class="px-4 py-4 text-sm text-right">
                                 <!-- Botón Editar -->
                                 <button
@@ -145,7 +157,8 @@
                                         required>
                                         <option value="" disabled>Seleccione una compra</option>
                                         @foreach ($buys as $buy)
-                                            <option value="{{ $buy->id }}">{{ $buy->fecha }} - S/. {{ number_format($buy->total, 2) }}</option>
+                                            <option value="{{ $buy->id }}">{{ $buy->fecha }} - S/.
+                                                {{ number_format($buy->total, 2) }}</option>
                                         @endforeach
                                     </select>
                                 </div>

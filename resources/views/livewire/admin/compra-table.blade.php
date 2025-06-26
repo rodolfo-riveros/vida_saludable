@@ -43,6 +43,16 @@
             <h1 class="text-2xl font-bold text-white" data-flux-component="heading">
                 Lista de Compras
             </h1>
+            <div class="space-x-2">
+                <a href="{{ route('admin.compra.export-pdf') }}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Exportar PDF
+                </a>
+                <a href="{{ route('admin.compra.export-excel') }}"
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Exportar Excel
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -54,7 +64,8 @@
                         <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Proveedor</th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Fecha</th>
                         <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Total</th>
-                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Tipo del comprobante</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-zinc-300 uppercase">Tipo del comprobante
+                        </th>
                         <th class="px-4 py-3 text-right text-sm font-medium text-zinc-300 uppercase">Acciones</th>
                     </tr>
                 </thead>
@@ -63,7 +74,8 @@
                         <tr>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $loop->iteration }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $buy->user->name }}</td>
-                            <td class="px-4 py-4 text-sm text-zinc-300">{{ $buy->supplier ? Str::limit($buy->supplier->razon_social, 20) : 'N/A' }}</td>
+                            <td class="px-4 py-4 text-sm text-zinc-300">
+                                {{ $buy->supplier ? Str::limit($buy->supplier->razon_social, 20) : 'N/A' }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $buy->fecha }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ number_format($buy->total, 2) }}</td>
                             <td class="px-4 py-4 text-sm text-zinc-300">{{ $buy->tipo_comprobante }}</td>
@@ -163,7 +175,8 @@
                                 </div>
                                 <!-- Campo Tipo de Comprobante -->
                                 <div>
-                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Tipo de Comprobante</label>
+                                    <label class="block text-sm font-medium text-zinc-300 mb-2">Tipo de
+                                        Comprobante</label>
                                     <select x-model="currentTipoComprobante" name="tipo_comprobante"
                                         class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         required>
