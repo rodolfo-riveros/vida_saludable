@@ -1,5 +1,5 @@
 <x-layouts.app.sidebar :title="$title ?? null">
     <flux:main>
-        {{ $slot }}
+        @livewire('admin.home-index')
     </flux:main>
 </x-layouts.app.sidebar>
